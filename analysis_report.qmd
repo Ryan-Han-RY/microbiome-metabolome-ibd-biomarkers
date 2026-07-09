@@ -1,13 +1,361 @@
 ---
-title: "Microbiome-Metabolome Integration in IBD"
-format: html
-editor: visual
+title: "Microbiome–Metabolome Integration Identifies Exploratory Cross-Omics Signatures Associated with IBD Diagnosis"
+author: "Ryan Han"
+date: last-modified
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    code-fold: true
+    code-summary: "Show code"
+    embed-resources: true
+    fig-cap-location: bottom
+    theme: cosmo
+editor: source
+execute:
+  echo: false
+  warning: false
+  message: false
 ---
 
-## Aim
+# Abstract
 
-This project investigates whether paired gut microbial taxa and stool metabolite profiles can identify candidate biomarker signatures associated with IBD diagnosis and disease activity using matched metagenomic and metabolomic samples from the IBDMDB/HMP2 cohort.
+Inflammatory bowel disease (IBD) is associated with perturbations across multiple layers of the gut microbial ecosystem, yet analyses of microbiome and metabolome data are often performed separately. This study evaluated whether paired stool microbial taxonomic profiles and metabolite features from the public IBDMDB/HMP2 cohort could identify exploratory cross-omics signatures associated with diagnosis. Metadata, metagenomic taxonomic profiles, and stool metabolomics tables were harmonised at the sample level. The complete matched dataset contained 388 paired samples from 105 participants; a primary independent dataset containing one sample per participant was used for ordination, association testing, integration, and candidate ranking to reduce repeated-measure leakage. Genus-level microbiome data were filtered and centred log-ratio transformed, while metabolite features were filtered for missingness, imputed, log2 transformed, and standardised. Microbiome structure was assessed using alpha diversity, Bray–Curtis and Aitchison distances, PERMANOVA, and dispersion testing. Diagnosis-associated taxa and metabolites were evaluated using multivariable feature-wise models with false-discovery-rate correction. Cross-omics associations were assessed using feature-prioritised Spearman correlation and a residual-based covariate-adjusted sensitivity analysis. A block sparse PLS-DA model was used for exploratory multivariate feature selection, and candidate taxa–metabolite pairs were ranked using multiple evidence layers.
 
-## Reproducibility
+Neither Shannon diversity nor observed richness differed significantly among Crohn's disease (CD), ulcerative colitis (UC), and non-IBD groups. Aitchison PERMANOVA detected a statistically significant but modest diagnosis-associated shift in microbiome composition (`R² = 0.0362`, `p = 0.003`) without evidence of unequal dispersion. No individual genus survived FDR correction across four diagnostic contrasts. In contrast, 1,730 metabolite-feature associations met `FDR < 0.10`, with the largest number observed for UC versus non-IBD. Among 3,900 prioritised taxa–metabolite pairs, 230 met `|rho| >= 0.30` and correlation `FDR < 0.10`. The highest-ranked pair was `Ruminococcus–C8p_QI7970` (`rho = -0.490`, correlation FDR `= 0.000452`, overall score `= 0.634`). The sparse integration model produced an apparent training-set accuracy of 0.733, which was used only as an exploratory descriptive metric. Overall, the analysis identified coordinated microbial–metabolite feature patterns but did not establish validated microbial biomarkers or clinical diagnostic performance. The leading metabolite features remain platform-specific identifiers and require targeted annotation and external validation.
 
-All analysis code is stored in the `R/` folder. Raw data are downloaded from public IBDMDB/HMP2 resources and are not included in this repository.
+# Background
+
+IBD comprises CD and UC, two chronic inflammatory disorders characterised by heterogeneous clinical courses and complex interactions among host genetics, immune activity, environmental exposure, and the intestinal microbial ecosystem. The IBDMDB/HMP2 project was designed to profile these interactions longitudinally across multiple molecular layers, including metagenomics and metabolomics. Such datasets provide an opportunity to examine whether disease-associated signals are shared across omics layers and whether coordinated microbial–metabolite patterns provide additional information beyond single-omics analyses.
+
+Microbiome data require particular statistical care because relative-abundance measurements are compositional: the abundance of each feature is constrained by the total abundance observed in a sample. Analyses based only on raw proportions may therefore produce results that depend on the closed-sum structure rather than absolute ecological changes. In the present workflow, prevalence and abundance filtering were followed by centred log-ratio (CLR) transformation, and Aitchison distance was used alongside Bray–Curtis dissimilarity. This allowed diagnosis-associated community structure to be examined in both conventional ecological and compositional spaces.
+
+Metabolomics data present a different set of challenges, including high dimensionality, substantial missingness, potential technical variation, and incomplete compound annotation. The public table used here contained more than 80,000 measured features, many represented by platform-specific identifiers rather than confirmed chemical names. The analysis therefore treats metabolite findings as feature-level statistical associations and avoids speculative chemical annotation.
+
+The principal objective was not to train a clinical diagnostic model. Instead, the project asked whether a carefully matched public cohort could support an end-to-end, reproducible candidate-prioritisation workflow that integrates cohort construction, single-omics statistics, cross-omics correlation, sparse multivariate feature selection, and transparent evidence scoring.
+
+# Research question and objectives
+
+The primary research question was:
+
+> Can paired gut microbial taxonomic profiles and stool metabolite features identify exploratory cross-omics signatures associated with IBD diagnosis after rigorous sample matching, data-type-specific preprocessing, covariate-aware association modelling, and participant-level integration?
+
+The analysis had five operational objectives:
+
+1. construct and document a matched microbiome–metabolome cohort from public IBDMDB/HMP2 data;
+2. create a one-sample-per-participant primary dataset for analyses that assume independent observations;
+3. characterise diagnosis-associated patterns within the microbiome and metabolome separately;
+4. identify coordinated taxa–metabolite feature pairs using prioritised correlation and sparse multivariate integration;
+5. rank candidate pairs using multiple evidence layers while explicitly separating exploratory prioritisation from biological or clinical validation.
+
+The diagnostic comparisons were IBD versus non-IBD, CD versus non-IBD, UC versus non-IBD, and CD versus UC.
+
+# Dataset and cohort construction
+
+## Data source
+
+The analysis used public processed data from the Inflammatory Bowel Disease Multi'omics Database / Integrative Human Microbiome Project (IBDMDB/HMP2). Three data layers were included:
+
+- phenotype and sampling metadata;
+- stool metagenomic taxonomic profiles;
+- stool metabolomics feature-abundance profiles.
+
+The workflow started from processed feature tables rather than raw FASTQ files or raw mass-spectrometry data. Consequently, upstream sequencing quality control, taxonomic profiling, peak detection, and peak alignment were outside the scope of this project. Source files, formats, download information, and analysis use are documented in `data_manifest.tsv`.
+
+## Sample matching
+
+Sample matching was treated as an explicit analytical stage. Identifiers were standardised across metadata, microbiome, and metabolomics tables, and overlaps were quantified before any downstream analysis. Participant identifiers and sampling information were retained so that repeated sampling could be identified rather than inadvertently treated as independent observations.
+
+![Study workflow](results/final_figures/figure_01_study_workflow.png){#fig-workflow}
+
+The initial metadata table contained 2,892 records from 131 participants. Microbiome profiles were available for 1,638 samples from 130 participants, whereas metabolomics profiles were available for 546 samples from 106 participants. Intersecting the microbiome and metabolomics data yielded 388 paired samples from 105 participants. All 388 samples could be linked to the required metadata.
+
+| Processing stage | Samples | Participants |
+|---|---:|---:|
+| Metadata records | 2,892 | 131 |
+| Microbiome profiles available | 1,638 | 130 |
+| Metabolomics profiles available | 546 | 106 |
+| Paired microbiome–metabolome samples | 388 | 105 |
+| Matched microbiome–metabolome–metadata samples | 388 | 105 |
+| After required metadata filtering | 388 | 105 |
+| Primary one-sample-per-participant dataset | 105 | 105 |
+
+![Sample retention during cohort construction](results/final_figures/figure_02_sample_matching_flow.png){#fig-sample-flow}
+
+## Longitudinal and primary analysis sets
+
+The complete matched dataset was retained as a longitudinal resource and contained 181 CD samples, 102 UC samples, and 105 non-IBD samples. Because multiple observations originated from the same participants, this dataset was not used directly in analyses that assume independent observations.
+
+A primary independent dataset was created by retaining one matched stool sample per participant. Baseline samples were preferred where available; otherwise, the earliest available matched sample was selected. This produced 105 independent observations: 49 CD, 30 UC, and 26 non-IBD participants.
+
+![Diagnosis composition of matched and independent datasets](results/final_figures/figure_03_group_distribution.png){#fig-group-distribution}
+
+The one-sample-per-participant strategy reduces repeated-measure leakage and prevents participants with more frequent sampling from receiving disproportionate influence in ordination, feature selection, and candidate ranking. It does not, however, exploit within-participant temporal information; longitudinal modelling remains an important extension.
+
+# Methods
+
+## Microbiome preprocessing
+
+Genus-level taxonomic profiles were selected as the primary microbiome representation. Unknown and unclassified taxa were removed. Features were retained when prevalence was at least 10% and mean relative abundance was at least 0.0001. A small pseudocount was added before CLR transformation. Both filtered relative-abundance and CLR matrices were retained for downstream analyses.
+
+The final genus-level dataset contained 39 taxa. Relative-abundance data were used for descriptive summaries and Bray–Curtis dissimilarity, while CLR-transformed data were used for Aitchison distance, compositional ordination, cross-omics analysis, and multivariable genus-level association modelling.
+
+## Metabolomics preprocessing
+
+The original metabolomics matrix contained 81,867 features. Feature-wise missingness was calculated across matched samples, and features with more than 30% missing values were removed. Missing values in retained features were replaced using half of the smallest observed positive value for the corresponding feature. The data were then log2 transformed, z-score scaled, and screened for near-zero variance.
+
+A total of 40,306 metabolite features remained after filtering. The retained features were analysed using their platform identifiers. Leading features could not be confidently linked to chemical names using the available annotation resources, so no unverified metabolite identities were assigned.
+
+## Microbiome diversity and ordination
+
+Within-sample diversity was summarised using observed genus richness and the Shannon diversity index. Diagnostic groups were compared using Kruskal–Wallis tests, and p-values were adjusted using the Benjamini–Hochberg procedure.
+
+Between-sample structure was evaluated using two distances:
+
+- Bray–Curtis dissimilarity on filtered relative-abundance data;
+- Aitchison distance, implemented as Euclidean distance in CLR space.
+
+Ordination was performed using principal coordinate analysis for Bray–Curtis dissimilarity and principal component analysis for CLR-transformed abundance. Diagnosis-associated differences in community structure were evaluated using PERMANOVA with 999 permutations. Multivariate dispersion was tested separately to assess whether PERMANOVA results could be explained by unequal within-group variability.
+
+## Genus-level association modelling
+
+Diagnosis-associated genus-level abundance was evaluated using MaAsLin2 on the primary independent cohort. The outcome matrix contained CLR-transformed genus abundances. Diagnostic group was the exposure of interest, with sex and antibiotic exposure included as available covariates. Four contrasts were evaluated: IBD versus non-IBD, CD versus non-IBD, UC versus non-IBD, and CD versus UC.
+
+The resulting p-values were corrected within the analysis output using the Benjamini–Hochberg procedure. Associations meeting `FDR < 0.10` were predefined as statistically significant. Nominal p-values are reported descriptively but are not interpreted as confirmed taxon-level findings.
+
+## Metabolite association modelling
+
+Feature-wise linear association models were fitted for each of the 40,306 processed metabolite features across the same four diagnostic contrasts. Models used the log2-transformed and z-score-scaled abundance values. The same available covariate strategy was used where model completeness permitted. Benjamini–Hochberg correction was applied, and `FDR < 0.10` was used as the feature-level significance threshold.
+
+## Cross-omics feature prioritisation and correlation
+
+An indiscriminate all-by-all correlation analysis would have required approximately 1.57 million tests and would have been difficult to interpret. Feature selection therefore preceded correlation testing.
+
+Because no genus survived FDR correction, all 39 filtered genera were retained and ordered by absolute MaAsLin2 effect magnitude. Metabolite features were prioritised using disease-association FDR and effect-size evidence and capped at 100 features. This produced 3,900 candidate taxa–metabolite combinations.
+
+Spearman correlations were calculated across the 105 independent samples. Correlation p-values were adjusted using the Benjamini–Hochberg procedure. Pairs were retained when `|rho| >= 0.30` and correlation `FDR < 0.10`.
+
+As a sensitivity analysis, available covariates were regressed separately from each taxon and metabolite feature, and residuals were correlated. This residual-based approach was used to assess whether leading associations were robust to measured covariates; it does not remove unmeasured confounding or establish causal direction.
+
+## Sparse multivariate integration
+
+A supervised block sparse PLS-DA model was fitted using mixOmics. The microbiome and metabolome were represented as separate feature blocks, and diagnosis was used as the outcome. The model used the primary independent dataset, two components, 39 microbiome features, and 100 metabolite features. Ten microbial features and 25 metabolite features were retained per component.
+
+The model was used as an exploratory multivariate feature-selection tool. An apparent nearest-centroid accuracy was calculated on the integrated training scores as a descriptive measure only. No nested cross-validation, held-out test set, or external cohort was used; the value must therefore not be interpreted as an unbiased estimate of predictive performance.
+
+## Multi-evidence candidate ranking
+
+Candidate taxa–metabolite pairs were ranked using a transparent multi-evidence score. Evidence layers included:
+
+- taxon association effect magnitude and FDR;
+- metabolite association effect magnitude and FDR;
+- taxa–metabolite correlation magnitude and FDR;
+- sparse PLS loading magnitude;
+- prevalence or missingness robustness;
+- annotation status and biological interpretability where available.
+
+The score was designed for prioritisation rather than inferential testing. A high score indicates convergence across the evidence layers included in this workflow; it does not establish causality, diagnostic utility, or biological mechanism.
+
+# Results
+
+## Microbiome alpha diversity
+
+Neither Shannon diversity nor observed richness differed significantly among CD, UC, and non-IBD groups. Shannon diversity produced a Kruskal–Wallis statistic of 3.28 (`p = 0.194`, FDR `= 0.194`), while observed richness produced a statistic of 3.84 (`p = 0.146`, FDR `= 0.194`).
+
+| Metric | Method | Statistic | p-value | FDR |
+|---|---|---:|---:|---:|
+| Shannon diversity | Kruskal–Wallis | 3.28 | 0.194 | 0.194 |
+| Observed richness | Kruskal–Wallis | 3.84 | 0.146 | 0.194 |
+
+![Shannon diversity by diagnosis](results/final_figures/figure_04_microbiome_alpha_diversity.png){#fig-alpha}
+
+The absence of a significant alpha-diversity difference indicates that, within this participant-level matched subset and after genus-level filtering, diagnosis was not associated with a clear shift in the overall number or evenness of retained genera. This does not exclude disease-associated changes in community composition.
+
+## Microbiome beta diversity and ordination
+
+Aitchison PERMANOVA identified a statistically significant diagnosis-associated difference in CLR-space community composition (`R² = 0.0362`, `F = 1.91`, `p = 0.003`). Diagnosis explained approximately 3.6% of the total variation, indicating a modest effect relative to substantial within-group heterogeneity.
+
+Bray–Curtis PERMANOVA gave `R² = 0.0314`, `F = 1.65`, and `p = 0.051`. The result was close to, but did not cross, the conventional 0.05 threshold.
+
+| Distance | PERMANOVA R² | F statistic | p-value | Dispersion p-value |
+|---|---:|---:|---:|---:|
+| Bray–Curtis | 0.0314 | 1.65 | 0.051 | 0.967 |
+| Aitchison | 0.0362 | 1.91 | 0.003 | 0.243 |
+
+Neither dispersion test was significant. The Aitchison PERMANOVA finding was therefore not accompanied by evidence that diagnostic groups differed primarily in within-group spread.
+
+![Aitchison ordination by diagnosis](results/final_figures/figure_05_microbiome_beta_diversity_ordination.png){#fig-beta}
+
+The ordination showed broad overlap among diagnostic groups. The statistical result is therefore best interpreted as a small shift in overall multivariate composition rather than discrete group separation.
+
+## Metabolomics ordination
+
+Principal component analysis was performed on the filtered, log2-transformed, and z-score-scaled metabolomics matrix. PC1 explained 11.6% of the variance and PC2 explained 7.1%.
+
+![Metabolomics PCA by diagnosis](results/final_figures/figure_06_metabolomics_pca.png){#fig-metabolomics-pca}
+
+The first two components showed substantial overlap among CD, UC, and non-IBD samples, indicating that the major axes of metabolome-wide variation were not determined solely by diagnosis. Feature-wise association testing nevertheless identified disease-associated signals that were not captured by complete low-dimensional separation.
+
+## Genus-level diagnosis associations
+
+Across 39 genera and four contrasts, 156 taxon-association estimates were generated. No association met the predefined `FDR < 0.10` threshold.
+
+Several nominal associations were observed. Roseburia was nominally higher in UC than non-IBD (`beta = 0.0390`, `p = 0.00336`, FDR `= 0.393`). Eubacterium was nominally lower in CD than UC (`beta = -0.0463`, `p = 0.00990`, FDR `= 0.405`), and Ruminococcus was nominally lower in IBD than non-IBD (`beta = -0.0140`, `p = 0.0101`, FDR `= 0.425`). None of these estimates survived multiple-testing correction.
+
+![Genus-level MaAsLin2 association results](results/final_figures/figure_07_taxa_differential_abundance.png){#fig-taxa-association}
+
+These findings do not support reporting any individual genus as a statistically significant disease biomarker in this dataset. Taxa retained in downstream integration were included because cross-omics analyses require a microbial feature block, not because the individual taxa had passed FDR correction.
+
+## Metabolite feature associations
+
+A total of 161,224 metabolite association estimates were generated, corresponding to 40,306 features across four diagnostic contrasts. Of these, 1,730 met `FDR < 0.10`.
+
+| Comparison | FDR-significant metabolite features |
+|---|---:|
+| UC vs non-IBD | 1,094 |
+| IBD vs non-IBD | 442 |
+| CD vs non-IBD | 110 |
+| CD vs UC | 84 |
+| **Total** | **1,730** |
+
+The largest number of significant feature-level associations occurred for UC versus non-IBD. Leading statistical signals included `C18n_QI7515`, `C18n_QI7605`, `C18n_QI8008`, `HILp_QI3060`, `C18n_QI1325`, `C18n_QI2402`, and `HILp_QI2095`.
+
+![Metabolite feature association results](results/final_figures/figure_08_metabolite_association_volcano.png){#fig-metabolite-volcano}
+
+![Top diagnosis-associated metabolite features](results/final_figures/figure_09_top_metabolite_heatmap.png){#fig-metabolite-heatmap}
+
+The number and magnitude of metabolite-feature associations were substantially greater than the genus-level findings. However, most leading features lacked confirmed chemical identities. The results therefore support a disease-associated metabolomic feature signal, not a mechanistic interpretation of named metabolites.
+
+## Taxa–metabolite correlations
+
+The prioritised cross-omics analysis tested 3,900 pairs: 39 genera by 100 metabolite features. A total of 230 pairs met both `|rho| >= 0.30` and correlation `FDR < 0.10`.
+
+Leading associations included:
+
+| Taxon | Metabolite feature | Spearman rho | Correlation FDR |
+|---|---|---:|---:|
+| Ruminococcus | C8p_QI7970 | -0.490 | 0.000452 |
+| Clostridium | C18n_QI4874 | 0.464 | 0.000587 |
+| Eggerthella | C18n_QI4874 | 0.463 | 0.000587 |
+| Coprobacillus | C18n_QI4874 | 0.462 | 0.000587 |
+| Anaerotruncus | HILn_QI25565 | 0.459 | 0.000587 |
+| Ruminococcus | C8p_QI10300 | -0.458 | 0.000587 |
+| Anaerotruncus | C18n_QI11958 | -0.450 | 0.000818 |
+| Anaerotruncus | HILp_QI9275 | -0.444 | 0.00104 |
+| Odoribacter | C18n_QI2966 | 0.440 | 0.00113 |
+| Faecalibacterium | HILp_QI3032 | 0.434 | 0.00143 |
+
+![Taxa–metabolite correlation heatmap](results/final_figures/figure_10_taxa_metabolite_correlation_heatmap.png){#fig-correlation}
+
+The strongest observed correlations were moderate rather than near-deterministic. Their statistical significance reflects consistency across the 105 samples, but correlation alone cannot establish whether microbial variation influences metabolite levels, metabolites influence microbial ecology, both respond to disease-related factors, or the association is affected by residual confounding.
+
+## Sparse multivariate integration
+
+The mixOmics block sPLS-DA model used 105 participants, two components, 39 microbiome features, and 100 metabolite features. Ten microbial features and 25 metabolite features were retained per component.
+
+Large microbial loadings included Anaerotruncus (`-0.593`) and Odoribacter (`-0.592`) on component 1, and Ruminococcus (`-0.840`) on component 2. Other selected genera included Bilophila, Roseburia, Dorea, Clostridium, Lactobacillus, Acidaminococcus, and Barnesiella.
+
+![Selected mixOmics feature loadings](results/final_figures/figure_11_mixomics_loading_plot.png){#fig-mixomics}
+
+The apparent nearest-centroid accuracy calculated on the integrated training scores was 0.733. This value is not a cross-validated estimate and should not be compared with validated diagnostic-model performance. The model was used to identify coordinated feature sets and to contribute loading evidence to candidate prioritisation.
+
+## Multi-evidence candidate ranking
+
+A total of 230 significant taxa–metabolite pairs were ranked using the combined evidence framework. The top-ranked pairs were:
+
+| Rank | Taxon | Metabolite feature | Taxon FDR | Metabolite FDR | Spearman rho | Correlation FDR | sPLS loading | Overall score |
+|---:|---|---|---:|---:|---:|---:|---:|---:|
+| 1 | Ruminococcus | C8p_QI7970 | 0.425 | 0.00198 | -0.490 | 0.000452 | 0.840 | 0.634 |
+| 2 | Ruminococcus | C8p_QI10300 | 0.425 | 0.00167 | -0.458 | 0.000587 | 0.840 | 0.582 |
+| 3 | Faecalibacterium | C18n_QI7605 | 0.718 | 0.0000105 | 0.322 | 0.0219 | 0.140 | 0.582 |
+| 4 | Ruminococcus | C8p_QI21618 | 0.425 | 0.000824 | -0.408 | 0.00311 | 0.840 | 0.572 |
+| 5 | Faecalibacterium | HILp_QI2044 | 0.718 | 0.000386 | 0.412 | 0.00264 | 0.164 | 0.568 |
+| 6 | Dorea | C18n_QI8008 | 0.640 | 0.0000149 | 0.374 | 0.00648 | 0.305 | 0.558 |
+| 7 | Faecalibacterium | HILp_QI3032 | 0.718 | 0.000556 | 0.434 | 0.00143 | 0.104 | 0.554 |
+| 8 | Ruminococcus | C8p_QI6409 | 0.425 | 0.000959 | -0.404 | 0.00349 | 0.840 | 0.535 |
+| 9 | Anaerotruncus | C18n_QI11958 | 0.702 | 0.000526 | -0.450 | 0.000818 | 0.593 | 0.532 |
+| 10 | Anaerotruncus | C18n_QI3804 | 0.702 | 0.00102 | -0.426 | 0.00156 | 0.593 | 0.527 |
+
+![Final candidate taxa–metabolite ranking](results/final_figures/figure_12_final_candidate_biomarker_ranking.png){#fig-ranking}
+
+The ranking was driven mainly by metabolite disease-association evidence, cross-omics correlation, and sparse-model selection. Taxon FDR values for the leading pairs remained above 0.10, consistent with the absence of individually significant genera. The ranked pairs are therefore cross-omics hypotheses for follow-up rather than confirmed microbial biomarkers.
+
+# Discussion
+
+This analysis demonstrates that the main value of a public multi-omics project does not necessarily lie in applying the largest possible number of methods. The most consequential steps were the construction of a defensible matched cohort, explicit handling of repeated sampling, data-type-specific preprocessing, and cautious separation of statistical association from clinical interpretation.
+
+The microbiome results showed a distinction between within-sample diversity and multivariate composition. Neither Shannon diversity nor observed richness differed significantly by diagnosis, whereas Aitchison PERMANOVA detected a modest but statistically significant shift in overall composition. This pattern suggests that diagnostic groups may differ more in the relative configuration of taxa than in simple genus counts or overall evenness. The small PERMANOVA effect size is important: diagnosis explained only a limited fraction of total variation, and substantial overlap remained among groups. Such heterogeneity is expected in observational gut-microbiome data, where diet, medication, inflammation, geography, technical processing, and unmeasured host factors can contribute to community variation.
+
+No individual genus survived multiple-testing correction. This negative result is scientifically informative and should not be hidden. Several genera showed nominal associations, but their FDR values were well above the predefined threshold. Consequently, the downstream integration does not reinterpret these taxa as independently significant disease markers. Instead, taxa are treated as one component of coordinated cross-omics patterns. This distinction prevents the candidate-ranking framework from overstating the evidence.
+
+The metabolomics layer produced considerably stronger feature-level disease associations. The largest number occurred in UC versus non-IBD, suggesting that the processed metabolomics data captured diagnosis-related variation not evident from the genus-level models. However, the absence of confident chemical annotations is a major constraint. Platform identifiers such as `C18n_QI7605` or `C8p_QI7970` are useful for reproducible tracking within the dataset but cannot support pathway-level or mechanistic claims without additional annotation. Accurate identification would require access to platform metadata, mass-to-charge and retention-time information, spectral evidence, authentic standards, or targeted validation.
+
+The cross-omics analysis identified 230 significant feature pairs after restricting the search space to prioritised taxa and metabolites. The leading negative association between Ruminococcus and `C8p_QI7970` was supported by a metabolite disease association, a moderate cross-omics correlation, and a large sparse-model loading. Nevertheless, the corresponding Ruminococcus disease association did not pass FDR correction. The pair should therefore be interpreted as a coordinated candidate signature rather than evidence that Ruminococcus is independently altered in IBD or that it produces or consumes the metabolite feature.
+
+The sparse integration model provided a compact multivariate representation and identified features that contributed to supervised separation. The apparent accuracy of 0.733 is intentionally labelled as a training-set metric. Without repeated cross-validation, nested feature-selection procedures, a held-out cohort, or external validation, this number is optimistically biased and cannot support a diagnostic claim. Its role in the present project is limited to exploratory feature selection and evidence aggregation.
+
+The final ranking addresses a practical challenge in high-dimensional multi-omics analysis: no single statistic adequately represents candidate quality. A low metabolite FDR, a strong correlation, or a large sPLS loading each captures a different property. The ranking combines these signals while preserving their individual values for auditability. This approach is more transparent than presenting only a final score, but the weights remain an analytical choice rather than a validated clinical model. Candidates should be re-evaluated under alternative weighting schemes and in independent data.
+
+# Limitations
+
+Several limitations constrain interpretation.
+
+1. **Processed public data.** The analysis starts from processed taxonomic and metabolite-feature tables. Raw read quality, taxonomic profiling choices, mass-spectrometry peak detection, and upstream batch correction could not be independently reassessed.
+
+2. **Cross-sectional primary integration.** Although 388 longitudinal matched samples were retained, the primary analysis used one sample per participant. This avoids repeated-measure leakage but does not model within-participant trajectories, disease flares, or temporal lead–lag relationships.
+
+3. **Moderate participant-level sample size.** The primary dataset contained 105 participants, including 49 CD, 30 UC, and 26 non-IBD participants. This limits power for small taxon effects and increases uncertainty in multivariate feature selection.
+
+4. **Incomplete covariate information.** Sex and antibiotic exposure were included where available, but residual confounding by medication, diet, disease activity, collection site, and other host factors may remain.
+
+5. **No FDR-significant individual genera.** Taxa in the final ranking are supported by correlation and multivariate evidence rather than significant independent taxon associations.
+
+6. **Incomplete metabolite annotation.** Most leading features remain platform-specific identifiers. Chemical identity, pathway membership, and biological mechanism cannot be inferred reliably from the present data alone.
+
+7. **Exploratory supervised model.** The reported 0.733 accuracy is an apparent training-set measure. The model lacks nested cross-validation, a held-out test set, and external validation.
+
+8. **Candidate score is not inferential.** The multi-evidence score is a prioritisation tool. It does not estimate diagnostic sensitivity, specificity, clinical utility, causal relevance, or replication probability.
+
+# Conclusions
+
+A reproducible matched-cohort workflow identified a modest diagnosis-associated shift in overall microbiome composition, no FDR-significant individual genera, a substantial set of diagnosis-associated metabolite features, and 230 coordinated taxa–metabolite pairs. The leading candidate pairs were supported by convergent metabolite, correlation, and sparse-integration evidence, but not by independently significant taxon associations. The results therefore support a set of exploratory cross-omics hypotheses rather than validated biomarkers.
+
+The most important next steps are external replication, targeted annotation of the leading metabolite features, longitudinal mixed-effects analysis, and properly nested validation of any supervised model. These steps are necessary before biological mechanism or diagnostic performance can be assessed.
+
+# Reproducibility
+
+The repository contains numbered R scripts, a data manifest, analytical decision notes, curated figures and tables, and an `renv.lock` file. Large raw files, processed R objects, and regenerable model intermediates are excluded from version control.
+
+To restore the R environment:
+
+```r
+if (!requireNamespace("renv", quietly = TRUE)) {
+  install.packages("renv")
+}
+renv::restore()
+```
+
+To render this report from the repository root:
+
+```bash
+quarto render analysis_report.qmd --to html
+```
+
+The document is configured with `embed-resources: true`, so the rendered output is a standalone `analysis_report.html` file.
+
+# References
+
+1. Lloyd-Price J, Arze C, Ananthakrishnan AN, et al. Multi-omics of the gut microbial ecosystem in inflammatory bowel diseases. *Nature*. 2019;569:655–662. doi:10.1038/s41586-019-1237-9.
+
+2. Mallick H, Rahnavard A, McIver LJ, et al. Multivariable association discovery in population-scale meta-omics studies. *PLoS Computational Biology*. 2021;17(11):e1009442. doi:10.1371/journal.pcbi.1009442.
+
+3. Rohart F, Gautier B, Singh A, Lê Cao KA. mixOmics: An R package for 'omics feature selection and multiple data integration. *PLoS Computational Biology*. 2017;13(11):e1005752. doi:10.1371/journal.pcbi.1005752.
+
+4. IBDMDB/HMP2 data resource. https://ibdmdb.org/.
+
+5. MaAsLin2 documentation. https://huttenhower.sph.harvard.edu/maaslin2/.
+
+6. mixOmics documentation. https://mixomics.org/.
+
+---
