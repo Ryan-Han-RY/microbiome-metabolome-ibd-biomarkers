@@ -1,0 +1,27 @@
+{
+    "id": "BC35DD09",
+    "path": "~/cv_project/project2/microbiome-metabolome-ibd-biomarkers/R/10_spls_mixomics_integration.R",
+    "project_path": "R/10_spls_mixomics_integration.R",
+    "type": "r_source",
+    "hash": "2679167366",
+    "contents": "",
+    "dirty": false,
+    "created": 1783551626868.0,
+    "source_on_save": false,
+    "relative_order": 11,
+    "properties": {
+        "tempName": "Untitled1",
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "469,51",
+        "scrollLine": "462"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1783551646,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1783551646451,
+    "read_only": false,
+    "read_only_alternatives": []
+}

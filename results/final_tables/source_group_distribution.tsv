@@ -1,0 +1,7 @@
+analysis_set	diagnosis_clean	n_samples	n_participants
+longitudinal_matched_set	CD	181	49
+longitudinal_matched_set	UC	102	30
+longitudinal_matched_set	non_IBD	105	26
+primary_independent_set	CD	49	49
+primary_independent_set	UC	30	30
+primary_independent_set	non_IBD	26	26

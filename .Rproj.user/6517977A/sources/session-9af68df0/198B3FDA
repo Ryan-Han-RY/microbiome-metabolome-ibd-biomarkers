@@ -1,0 +1,27 @@
+{
+    "id": "198B3FDA",
+    "path": "~/cv_project/project2/microbiome-metabolome-ibd-biomarkers/R/01_download_data.R",
+    "project_path": "R/01_download_data.R",
+    "type": "r_source",
+    "hash": "2162431354",
+    "contents": "",
+    "dirty": false,
+    "created": 1783435979835.0,
+    "source_on_save": false,
+    "relative_order": 2,
+    "properties": {
+        "tempName": "Untitled1",
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "158,43",
+        "scrollLine": "133"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1783436004,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1783436004753,
+    "read_only": false,
+    "read_only_alternatives": []
+}

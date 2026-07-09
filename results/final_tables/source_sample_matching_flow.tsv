@@ -1,0 +1,8 @@
+step	n_samples	n_participants
+metadata_total	2892	131
+microbiome_available	1638	130
+metabolomics_available	546	106
+matched_microbiome_metabolome	388	105
+matched_metadata_microbiome_metabolome	388	105
+after_missing_metadata_filter	388	105
+primary_independent_subset	105	105

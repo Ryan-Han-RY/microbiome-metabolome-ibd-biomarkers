@@ -1,0 +1,5 @@
+metabolite_platform	annotation_status	n_features
+C18N	C18n_feature_without_matched_annotation	160
+C8P	unannotated_feature_no_matching_platform_annotation	24
+HILP	unannotated_feature_no_matching_platform_annotation	29
+NA	unannotated_feature_no_matching_platform_annotation	17

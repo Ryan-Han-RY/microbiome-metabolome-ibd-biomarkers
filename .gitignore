@@ -1,0 +1,25 @@
+.Rhistory
+.RData
+.Ruserdata
+.DS_Store
+
+# Do not upload raw public data files to GitHub
+data/raw/*
+!data/raw/.gitkeep
+
+# Large intermediate objects
+data/processed/*.rds
+
+# Rendered reports can be regenerated
+*.html
+*.pdf
+
+# Regenerable model outputs and large intermediate results
+results/models/*
+!results/models/.gitkeep
+results/tables/metabolite_association_all_results.tsv
+
+# Regenerable model outputs and large intermediate results
+results/models/*
+!results/models/.gitkeep
+results/tables/metabolite_association_all_results.tsv

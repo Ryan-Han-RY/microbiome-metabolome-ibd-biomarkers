@@ -1,0 +1,27 @@
+{
+    "id": "C63E82C0",
+    "path": "~/cv_project/project2/microbiome-metabolome-ibd-biomarkers/R/12_make_figures_tables.R",
+    "project_path": "R/12_make_figures_tables.R",
+    "type": "r_source",
+    "hash": "332239889",
+    "contents": "",
+    "dirty": true,
+    "created": 1783556420997.0,
+    "source_on_save": false,
+    "relative_order": 14,
+    "properties": {
+        "tempName": "Untitled1",
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "1,0",
+        "scrollLine": "0"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1783556452,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1783556690583,
+    "read_only": false,
+    "read_only_alternatives": []
+}

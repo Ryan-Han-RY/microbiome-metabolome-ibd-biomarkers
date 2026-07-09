@@ -1,0 +1,13 @@
+---
+title: "Microbiome-Metabolome Integration in IBD"
+format: html
+editor: visual
+---
+
+## Aim
+
+This project investigates whether paired gut microbial taxa and stool metabolite profiles can identify candidate biomarker signatures associated with IBD diagnosis and disease activity using matched metagenomic and metabolomic samples from the IBDMDB/HMP2 cohort.
+
+## Reproducibility
+
+All analysis code is stored in the `R/` folder. Raw data are downloaded from public IBDMDB/HMP2 resources and are not included in this repository.

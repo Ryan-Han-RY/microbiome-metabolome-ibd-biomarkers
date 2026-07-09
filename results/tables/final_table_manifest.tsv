@@ -1,0 +1,17 @@
+source_path	final_path	status	n_rows	n_cols	expected_empty
+results/tables/sample_matching_flow.tsv	results/final_tables/source_sample_matching_flow.tsv	copied	7	3	FALSE
+results/tables/group_distribution.tsv	results/final_tables/source_group_distribution.tsv	copied	6	4	FALSE
+results/tables/alpha_diversity_results.tsv	results/final_tables/source_alpha_diversity_results.tsv	copied	2	5	FALSE
+results/tables/permanova_results.tsv	results/final_tables/source_permanova_results.tsv	copied	6	7	FALSE
+results/tables/betadisper_results.tsv	results/final_tables/source_betadisper_results.tsv	copied	4	8	FALSE
+results/tables/maaslin2_taxa_all_results.tsv	results/final_tables/source_maaslin2_taxa_all_results.tsv	copied	156	20	FALSE
+results/tables/maaslin2_taxa_significant_results.tsv	results/final_tables/source_maaslin2_taxa_significant_results.tsv	copied	0	20	TRUE
+results/tables/metabolite_association_significant_results.tsv	results/final_tables/source_metabolite_association_significant_results.tsv	copied	1730	19	FALSE
+results/tables/integration_feature_selection_summary.tsv	results/final_tables/source_integration_feature_selection_summary.tsv	copied	2	6	FALSE
+results/tables/taxa_metabolite_spearman_significant_pairs.tsv	results/final_tables/source_taxa_metabolite_spearman_significant_pairs.tsv	copied	230	10	FALSE
+results/tables/covariate_adjusted_correlation_pairs.tsv	results/final_tables/source_covariate_adjusted_correlation_pairs.tsv	copied	3900	11	FALSE
+results/tables/mixomics_selected_microbiome_features.tsv	results/final_tables/source_mixomics_selected_microbiome_features.tsv	copied	20	7	FALSE
+results/tables/mixomics_selected_metabolite_features.tsv	results/final_tables/source_mixomics_selected_metabolite_features.tsv	copied	50	7	FALSE
+results/tables/mixomics_model_performance.tsv	results/final_tables/source_mixomics_model_performance.tsv	copied	1	10	FALSE
+results/tables/final_candidate_biomarker_ranking.tsv	results/final_tables/source_final_candidate_biomarker_ranking.tsv	copied	230	23	FALSE
+results/tables/final_candidate_biomarker_ranking_annotated.tsv	results/final_tables/source_final_candidate_biomarker_ranking_annotated.tsv	copied	230	33	FALSE

@@ -1,0 +1,63 @@
+Method	Compound	m/z	RT (min)	Metabolite identified after publication
+C18n	QI1629	213.1854	12.7	11-methyl laurate
+C18n	QI3732	295.2279	11.21	13-HODE
+C18n	QI2118	239.2014	13.31	14-pentadecenoic acid
+C18n	QI6169	373.2749	12.2	3-oxo lithocholic acid
+C18n	QI6172	373.2749	12.35	3-oxolithocholate
+C18n	QI8994	462.3224	9.11	Ala - chenodeoxycholate
+C18n	QI9513	478.317	7.98	Ala - Cholate
+C18n	QI8995	462.3225	9.39	Ala - deoxycholate
+C18n	QI11830	563.3815	6.64	Arg - Cholate
+C18n	QI11521	547.3865	7.6	Arg - deoxycholate
+C18n	QI10373	505.3294	8.16	Asn - chenodeoxycholate
+C18n	QI10829	521.3236	7.2	Asn - Cholate
+C18n	QI10374	505.3295	8.38	Asn - deoxycholate
+C18n	QI10399	506.3121	8.49	Asp - chenodeoxycholate
+C18n	QI10864	522.3073	7.46	Asp - Cholate
+C18n	QI10398	506.3121	8.71	Asp - deoxycholate
+C18n	QI592	143.1065	8.63	caprylate
+C18n	QI4788	329.1766	10.67	carnosol_isomer
+C18n	QI11526	548.3706	8.15	Citrulline - chenodeoxycholate
+C18n	QI11844	564.3653	7.24	Citrulline - Cholate
+C18n	QI11527	548.3707	8.38	Citrulline - deoxycholate
+C18n	QI5930	367.1585	7.28	dehydroepiandrosterone sulfate
+C18n	QI931	168.0293	1.34	furoylglycine
+C18n	QI10778	519.3431	8.44	Gln - chenodeoxycholate
+C18n	QI11215	535.3398	7.26	Gln - Cholate
+C18n	QI10779	519.345	7.15	Gln - ursodeoxycholate / Gln - hyodeoxycholate
+C18n	QI10802	520.3278	8.55	Glu - chenodeoxycholate
+C18n	QI11229	536.3227	7.54	Glu - Cholate
+C18n	QI10801	520.3277	8.79	Glu - deoxycholate
+C18n	QI11040	528.3438	7.28	His - chenodeoxycholate
+C18n	QI11461	544.3392	6.53	His - Cholate
+C18n	QI11041	528.3441	7.48	His - deoxycholate
+C18n	QI10806	520.3642	9.24	Ile - Cholate / Leu - Cholate
+C18n	QI13593	751.5889	11.15	Isoallolithocholate [2M-H]-
+C18n	QI6769	391.2858	9.31	isodeoxycholic acid
+C18n	QI6230	375.2906	11.31	isolithocholate
+C18n	QI13594	751.5889	11.31	isolithocholate [2M-H]-
+C18n	QI13595	751.5891	11.98	lithocholate  [2M-H]-
+C18n	QI10785	519.3802	7.51	Lys - chenodeoxycholate
+C18n	QI11220	535.3754	6.9	Lys - Cholate
+C18n	QI10784	519.3801	7.7	Lys - deoxycholate
+C18n	QI10866	522.3265	10.11	Met - chenodeoxycholate
+C18n	QI11294	538.3212	8.66	Met - Cholate
+C18n	QI11299	538.3534	10.49	Phe - chenodeoxycholate
+C18n	QI11694	554.3484	9.35	Phe - Cholate
+C18n	QI11298	538.3531	10.8	Phe - deoxycholate
+C18n	QI2774	263.1039	1.27	phenylacetylglutamine
+C18n	QI6880	395.1898	8.53	pregnenolone sulfate
+C18n	QI10150	498.2905	6.79	taurohyodeoxycholate/tauroursodeoxycholate
+C18n	QI9994	492.3331	8.68	Thr - chenodeoxycholate
+C18n	QI10457	508.3278	7.65	Thr - Cholate
+C18n	QI9995	492.3331	8.96	Thr - deoxycholate
+C18n	QI1630	213.1854	12.92	tridecanoic acid
+C18n	QI12103	577.3641	10.17	Trp - chenodeoxycholate
+C18n	QI12361	593.359	9.1	Trp - Cholate
+C18n	QI12102	577.3639	10.44	Trp - deoxycholate
+C18n	QI11693	554.348	9.19	Tyr - chenodeoxycholate
+C18n	QI11692	554.3477	8.16	Tyr - ursodeoxycholate / Tyr - hyodeoxycholate
+C18n	QI12005	570.3433	8.14	tyrosocholate
+C18n	QI9918	490.3538	9.92	Val - chenodeoxycholate
+C18n	QI10405	506.3484	8.75	Val - Cholate
+C18n	QI9921	490.3539	10.23	Val - deoxycholate

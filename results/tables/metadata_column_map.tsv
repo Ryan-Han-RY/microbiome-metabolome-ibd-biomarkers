@@ -1,0 +1,8 @@
+standard_variable	source_column
+sample_id_clean	external_id
+participant_id_clean	participant_id
+diagnosis_clean	diagnosis
+week_num_clean	week_num
+age_clean	NA
+sex_clean	sex
+antibiotic_use_clean	antibiotics

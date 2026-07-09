@@ -1,0 +1,6 @@
+analysis	result_summary	interpretation
+Alpha diversity	2 alpha-diversity tests available	Used to evaluate within-sample microbiome diversity by diagnosis.
+PERMANOVA	6 PERMANOVA rows available	Used to test community-level microbiome composition differences by diagnosis.
+Beta dispersion	4 beta-dispersion rows available	Used to check whether PERMANOVA signal may be influenced by group dispersion.
+MaAsLin2 genus-level taxa	156 results; 0 FDR-significant results	No genus-level taxa survived FDR correction; taxa were retained as exploratory signals.
+MaAsLin2 metabolite features	161224 results; 1730 FDR-significant results	Metabolomics showed disease-associated feature-level signal.

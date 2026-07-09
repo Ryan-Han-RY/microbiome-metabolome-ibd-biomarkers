@@ -1,0 +1,2 @@
+model	performance_type	n_samples	n_components	n_microbiome_features_input	n_metabolite_features_input	keepX_microbiome_per_component	keepX_metabolome_per_component	apparent_accuracy	interpretation_note
+mixOmics_block_sPLS_DA	apparent_nearest_centroid_accuracy_on_integrated_scores	105	2	39	100	10;10	25;25	0.7333333333333333	Exploratory training-set metric only; not clinical validation.

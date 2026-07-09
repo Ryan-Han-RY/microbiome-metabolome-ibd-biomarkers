@@ -1,0 +1,4 @@
+object	n_samples_or_rows	n_features_or_columns	source_file
+metadata_clean	5533	497	data/raw/hmp2_metadata_2018-08-20.csv
+microbiome_raw	1638	1479	data/raw/taxonomic_profiles.tsv.gz
+metabolomics_raw	546	81867	data/raw/HMP2_metabolomics_w_metadata.biom.gz

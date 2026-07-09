@@ -1,0 +1,15 @@
+metric	value
+metadata_samples_total	2892
+matched_multiomics_samples	105
+primary_independent_samples	105
+genus_level_taxa_tested	39
+metabolite_features_tested	40306
+taxa_maaslin2_results	156
+taxa_fdr_significant_results	0
+metabolite_maaslin2_results	161224
+metabolite_fdr_significant_results	1730
+selected_taxa_for_integration	39
+selected_metabolites_for_integration	100
+significant_taxa_metabolite_pairs	230
+mixomics_apparent_accuracy	0.733
+final_candidate_pairs_ranked	230

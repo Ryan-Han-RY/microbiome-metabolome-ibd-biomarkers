@@ -1,0 +1,27 @@
+{
+    "id": "819E0621",
+    "path": "~/cv_project/project2/microbiome-metabolome-ibd-biomarkers/R/02_parse_tables.R",
+    "project_path": "R/02_parse_tables.R",
+    "type": "r_source",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1783436516248.0,
+    "source_on_save": false,
+    "relative_order": 3,
+    "properties": {
+        "tempName": "Untitled1",
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "248,1",
+        "scrollLine": "227"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1783436549,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1783436549499,
+    "read_only": false,
+    "read_only_alternatives": []
+}

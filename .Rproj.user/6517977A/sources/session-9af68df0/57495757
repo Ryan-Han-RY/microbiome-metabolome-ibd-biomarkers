@@ -1,0 +1,27 @@
+{
+    "id": "57495757",
+    "path": "~/cv_project/project2/microbiome-metabolome-ibd-biomarkers/R/11_biomarker_ranking.R",
+    "project_path": "R/11_biomarker_ranking.R",
+    "type": "r_source",
+    "hash": "1161395382",
+    "contents": "",
+    "dirty": false,
+    "created": 1783551668752.0,
+    "source_on_save": false,
+    "relative_order": 12,
+    "properties": {
+        "tempName": "Untitled1",
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "427,64",
+        "scrollLine": "412"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1783551697,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1783551697728,
+    "read_only": false,
+    "read_only_alternatives": []
+}

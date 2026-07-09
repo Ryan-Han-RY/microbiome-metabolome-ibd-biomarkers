@@ -1,0 +1,27 @@
+{
+    "id": "102DE816",
+    "path": "~/cv_project/project2/microbiome-metabolome-ibd-biomarkers/R/08_metabolite_association_models.R",
+    "project_path": "R/08_metabolite_association_models.R",
+    "type": "r_source",
+    "hash": "0",
+    "contents": "",
+    "dirty": true,
+    "created": 1783443978923.0,
+    "source_on_save": false,
+    "relative_order": 9,
+    "properties": {
+        "tempName": "Untitled1",
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "8,18",
+        "scrollLine": "0"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1783453752,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1783551152036,
+    "read_only": false,
+    "read_only_alternatives": []
+}

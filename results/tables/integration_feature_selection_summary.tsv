@@ -1,0 +1,3 @@
+feature_type	n_total_features	n_after_filtering	selection_criterion	used_for_correlation	used_for_spls
+microbiome_taxa	39	39	Top taxa by absolute MaAsLin2 effect size because no taxa survived FDR < 0.10	TRUE	TRUE
+metabolites	40306	100	MaAsLin2 FDR < 0.10, capped at top 100 by q-value/effect size	TRUE	TRUE

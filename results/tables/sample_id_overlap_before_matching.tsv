@@ -1,0 +1,5 @@
+comparison	n_left	n_right	n_overlap
+metadata_vs_microbiome	2892	1638	1638
+metadata_vs_metabolomics	2892	546	546
+microbiome_vs_metabolomics	1638	546	388
+metadata_vs_microbiome_vs_metabolomics	2892	NA	388

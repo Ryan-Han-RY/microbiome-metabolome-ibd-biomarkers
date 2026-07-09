@@ -1,0 +1,6 @@
+step	n_features	n_samples
+raw_metabolite_features	81867	388
+after_missingness_filter	40306	388
+after_complete_imputation	40306	388
+after_near_zero_variance_filter	40306	388
+final_log_scaled_features	40306	388

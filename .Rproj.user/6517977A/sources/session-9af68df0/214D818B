@@ -1,0 +1,27 @@
+{
+    "id": "214D818B",
+    "path": "~/cv_project/project2/microbiome-metabolome-ibd-biomarkers/R/04_microbiome_preprocessing.R",
+    "project_path": "R/04_microbiome_preprocessing.R",
+    "type": "r_source",
+    "hash": "1550370179",
+    "contents": "",
+    "dirty": false,
+    "created": 1783443528947.0,
+    "source_on_save": false,
+    "relative_order": 5,
+    "properties": {
+        "tempName": "Untitled1",
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "219,68",
+        "scrollLine": "174"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1783443548,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1783443548222,
+    "read_only": false,
+    "read_only_alternatives": []
+}
