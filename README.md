@@ -10,8 +10,7 @@ A reproducible secondary analysis of paired stool microbiome and metabolomics pr
 > **Scope:** exploratory candidate discovery from public processed data. The outputs are not clinically validated biomarkers and the supervised model is not a validated diagnostic classifier.
 
 **Author:** Ryan Han  
-**Rendered report:** [View the full Quarto analysis report](https://ryan-han-ry.github.io/microbiome-metabolome-ibd-biomarkers/analysis_report.html)  
-**Report source:** [`analysis_report.qmd`](analysis_report.qmd)  
+**Rendered report:** [View the full Quarto analysis report](https://ryan-han-ry.github.io/microbiome-metabolome-ibd-biomarkers/analysis_report.html)   
 **Curated outputs:** [Figures](results/final_figures/) · [Tables](results/final_tables/)
 
 ---
